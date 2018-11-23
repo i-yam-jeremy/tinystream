@@ -1,5 +1,5 @@
 const assert = require('assert');
-const test = require('../src/index');
+import {TinyWriteStream} from '../src/index';
 
 describe('TinyWriteStream', () => {
 	describe('#write()', () => {
