@@ -6,32 +6,37 @@ function initDictionary() {
 	return dictionary;
 }
 
-function dictIndexOf(dictionary, bytePattern) {
+function arrayEquals(arr1, arr2) {
+	if (arr1.length != arr2.length) {
+		return false;
+	}
+	
+	for (let i = 0; i < arr1.length; i++) {
+		if (arr1[i] != arr2[i]) {
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function dictIndexOf(dictionary, pattern) {
 	for (let i = 0; i < dictionary.length; i++) {
 		let entry = dictionary[i];
-		if (entry.length == bytePattern.length) {
-			let isMatch = true;
-			for (let i = 0; i < entry.length; i++) {
-				if (entry[i] != bytePattern[i]) {
-					isMatch = false;
-					break;
-				}
-			}
-			if (isMatch) {
-				return i;
-			}
+		if (arrayEquals(entry, pattern)) {
+			return i;
 		}
 	}
 	return -1;
 }
 
-function isInDictionary(dictionary, bytePattern) {
-	return dictIndexOf(dictionary, bytePattern) != -1;
+function isInDictionary(dictionary, pattern) {
+	return dictIndexOf(dictionary, pattern) != -1;
 }
 
-//TODO make a LZWDict class for storing this data
 export {
 	initDictionary,
+	arrayEquals,
 	dictIndexOf,
 	isInDictionary
 };
