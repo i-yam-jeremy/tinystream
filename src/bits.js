@@ -8,6 +8,7 @@ function lzwElementsToBytes(dictionarySize, elements) {
 	
 	let bitPos = 0;
 	for (let element of elements) {
+
 		let bytePos = Math.floor(bitPos / 8);
 		let bitsUsedInByte = bitPos % 8;
 		let bitsLeftInByte = 8 - bitsUsedInByte;
