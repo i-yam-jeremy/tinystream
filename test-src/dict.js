@@ -10,6 +10,35 @@ describe('LZW Dictionary', () => {
 	});
 
 	describe('dictIndexOf', () => {
-		//TODO
+		it('singleton elements', () => {
+			let dict = initDictionary();
+
+			for (let i = 0; i < dict.length; i++) {
+				assert.equal(dictIndexOf(dict, dict[i]), i);
+			}
+		});
+		it('multiple elements', () => {
+			let dict = initDictionary();
+			dict.push([1, 3]);
+			dict.push([1, 3, 5, 68, 256]);
+			dict.push([257, 102, 59]);
+
+			assert.equal(dictIndexOf(dict, [1, 3]), 256);
+			assert.equal(dictIndexOf(dict, [1, 3, 5, 68, 256]), 257);
+			assert.equal(dictIndexOf(dict, [257, 102, 59]), 258);
+		});
+		it('non-existant elements', () => {
+			let dict = initDictionary();
+			dict.push([1, 2, 3, 4, 5, 6]);
+			dict.push([0, 78, 99, 256]);
+			dict.push([256, 255, 0]);
+			dict.push([253, 252, 99]);
+			dict.push([251, 252]);
+			
+			assert.equal(dictIndexOf(dict, [3, 4]), -1);
+			assert.equal(dictIndexOf(dict, [257]), -1);
+			assert.equal(dictIndexOf(dict, []), -1);
+			assert.equal(dictIndexOf(dict, [251, 252, 253]), -1);
+		});
 	});
 });
