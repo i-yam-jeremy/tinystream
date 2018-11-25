@@ -73,4 +73,15 @@ describe('LZW Elements To Bytes', () => {
 			assert.deepEqual(numbersToBytes(18, numbers), bytes);
 		});
 	});
+	describe('lzwElementsToBytes()', () => {
+		it('empty list', () => {
+			let emptyBytes = new Uint8Array(0);
+			assert.deepEqual(lzwElementsToBytes(0, []), emptyBytes);
+			assert.deepEqual(lzwElementsToBytes(1, []), emptyBytes);
+			assert.deepEqual(lzwElementsToBytes(5, []), emptyBytes);
+			assert.deepEqual(lzwElementsToBytes(15, []), emptyBytes);
+			assert.deepEqual(lzwElementsToBytes(33, []), emptyBytes);
+		});
+		// TODO
+	});
 });
