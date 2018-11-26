@@ -28,29 +28,7 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 	bytes[bytePos] |= n;
 }
 
-function numbersToBytes(bitCountPerNum, numbers) {
-	let totalBitCount = bitCountPerNum * numbers.length;
-	let byteCount = Math.ceil(totalBitCount / 8);
-
-	let bytes = new Uint8Array(byteCount);
-	
-	let bitPos = 0;
-	for (let n of numbers) {
-		putNumberInBytes(bitCountPerNum, bitPos, n, bytes);
-		bitPos += bitCountPerNum;
-	}
-
-	return bytes;
-}
-
-function lzwElementsToBytes(dictionaryLength, elements) {
-	let elementBitSize = getBitsPerElement(dictionaryLength); 
-	return numbersToBytes(elementBitSize, elements);
-}
-
 export {
 	getBitsPerElement,
-	putNumberInBytes,	
-	numbersToBytes,
-	lzwElementsToBytes
+	putNumberInBytes
 };
