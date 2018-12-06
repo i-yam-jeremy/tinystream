@@ -1,6 +1,8 @@
 const assert = require('assert');
-import {writeElement, compress} from '../src/compress';
 
+const comp = require('../src/compress');
+const writeElement = comp.writeElement;
+const compress = comp.compress;
 
 describe('Compression & Decompression', () => {
 	describe('writeElement()', () => {

@@ -34,7 +34,7 @@ function isInDictionary(dictionary, pattern) {
 	return dictIndexOf(dictionary, pattern) != -1;
 }
 
-export {
+module.exports = {
 	initDictionary,
 	arrayEquals,
 	dictIndexOf,

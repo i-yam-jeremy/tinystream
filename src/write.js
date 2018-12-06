@@ -1,5 +1,5 @@
-import {compress} from './compress';
-import {initDictionary} from './dict';
+const compress = require('./compress').compress;
+const initDictionary = require('./dict').initDictionary;
 
 class TinyWriteStream {
 
@@ -15,4 +15,4 @@ class TinyWriteStream {
 
 }
 
-export {TinyWriteStream};
+module.exports = {TinyWriteStream};

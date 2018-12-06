@@ -1,5 +1,10 @@
 const assert = require('assert');
-import {getBitsPerElement, putNumberInBytes, nLongBitMask, readNumberFromBytes} from '../src/bits';
+
+const bits = require('../src/bits');
+const getBitsPerElement = bits.getBitsPerElement;
+const putNumberInBytes = bits.putNumberInBytes;
+const nLongBitMask = bits.nLongBitMask;
+const readNumberFromBytes = bits.readNumberFromBytes;
 
 
 describe('LZW Elements To Bytes', () => {

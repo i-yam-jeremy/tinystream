@@ -69,7 +69,7 @@ function readNumberFromBytes(bitCount, bitPos, bytes) {
 	return n;
 }
 
-export {
+module.exports = {
 	getBitsPerElement,
 	putNumberInBytes,
 	nLongBitMask,

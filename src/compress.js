@@ -1,5 +1,11 @@
-import {isInDictionary, dictIndexOf} from './dict';
-import {getBitsPerElement, putNumberInBytes, readNumberFromBytes} from './bits';
+const dict = require('./dict');
+const isInDictionary = dict.isInDictionary;
+const dictIndexOf = dict.dictIndexOf;
+
+const bits = require('./bits');
+const getBitsPerElement = bits.getBitsPerElement;
+const putNumberInBytes = bits.putNumberInBytes;
+const readNumberFromBytes = bits.readNumberFromBytes;
 
 function writeElement(outputBitPos, outputBytes, dictionary, s) {
 	let elementBitCount = getBitsPerElement(dictionary.length);
@@ -91,4 +97,4 @@ function decompress(dictionary, data) {
 	return outputBytes.slice(0, outputBytePos);
 }
 
-export {compress, decompress};
+module.exports = {compress, decompress};

@@ -1,4 +1,4 @@
-import {TinyWriteStream} from './write';
-import {TinyReadStream} from './read';
+const TinyWriteStream = require('./write').TinyWriteStream;
+const TinyReadStream = require('./read').TinyReadStream;
 
-export {TinyWriteStream, TinyReadStream};
+module.exports = {TinyWriteStream, TinyReadStream};

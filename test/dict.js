@@ -1,5 +1,10 @@
 const assert = require('assert');
-import {initDictionary, arrayEquals, dictIndexOf, isInDictionary} from '../src/dict';
+
+const dict = require('../src/dict');
+const initDictionary = dict.initDictionary;
+const arrayEquals = dict.arrayEquals;
+const dictIndexOf = dict.dictIndexOf;
+const isInDictionary = dict.isInDictionary;
 
 describe('LZW Dictionary', () => {
 	describe('initDictionary()', () => {
