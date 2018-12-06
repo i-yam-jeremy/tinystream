@@ -8,10 +8,11 @@ tinystream is a JavaScript library for compressing data streams using the LZW co
 
 ### Basic Usage
 ```javascript
-let input = new TinyReadStream(data => {
+const tiny = require('tinystream');
+let input = new tiny.ReadStream(data => {
   // TODO handle uncompressed data
 });
-let output = new TinyWriteStream(data => {
+let output = new tiny.WriteStream(data => {
  // TODO handle compressed data (send to server, write to file, etc.)
 });
 
@@ -25,21 +26,23 @@ input.onData(data);
 
 ### Node.js File Compression
 ```javascript
+const fs = require('fs');
+const tiny = require('tinystream');
 
 // Compress the file
-let output = new TinyWriteStream(data => {
-  fs.writeFile('YOUR_COMPRESSED_FILE_PATH', data);
+let output = new tiny.WriteStream(data => {
+  fs.writeFile('YOUR_COMPRESSED_FILE_PATH', data, () => {});
 });
 
-fs.readFile('YOUR_FILE_PATH', (err, data) {
+fs.readFile('YOUR_INPUT_FILE_PATH', (err, data) => {
   if (!err) {
-    out.write(data);
+    output.write(data);
   }
 });
 
 // Decompress the file
-let input = new TinyReadStream(data => {
-  fs.writeFile('YOUR_DECOMPRESSED_FILE_PATH', data);
+let input = new tiny.ReadStream(data => {
+  fs.writeFile('YOUR_DECOMPRESSED_FILE_PATH', data, () => {});
 });
 
 fs.readFile('YOUR_COMPRESSED_FILE_PATH', (err, data) => {
@@ -47,4 +50,5 @@ fs.readFile('YOUR_COMPRESSED_FILE_PATH', (err, data) => {
     input.onData(data);
   }
 });
+
 ```
