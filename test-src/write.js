@@ -11,10 +11,10 @@ describe('TinyWriteStream', () => {
 				console.log(data);
 			});
 			let out = new TinyWriteStream(data => {
+				console.log(data);
 				tinyread.onData(data);
 			});
-			out.write(new Uint8Array([1, 2, 3, 3, 3, 1, 2, 1, 2, 1, 2]));
-
+			out.write(new Uint8Array([1, 2, 3, 3, 3, 1, 2, 1, 2, 1, 2, 1, 2]));
 		});
 	});
 });

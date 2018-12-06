@@ -5,7 +5,7 @@ class TinyReadStream {
 
 	constructor(callback) {
 		this.dictionary = initDictionary();
-		this.callback = this.callback || (data => {});		
+		this.callback = callback || (data => {});		
 	}
 
 	onData(compressedData) {
