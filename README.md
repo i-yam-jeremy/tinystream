@@ -3,6 +3,9 @@ tinystream is a JavaScript library for compressing data streams using the LZW co
 
 ## Usage
 
+### Installation
+```npm install --save tinystream```
+
 ### Basic Usage
 ```javascript
 let input = new TinyReadStream(data => {
