@@ -9,5 +9,6 @@ module.exports = {
 		path: path.resolve(__dirname, 'build'),
 		publicPath: '/build/',
 		filename: 'tinystream.js'
-	}
+	},
+	stats: 'minimal'
 };

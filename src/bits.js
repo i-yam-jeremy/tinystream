@@ -29,7 +29,12 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 }
 
 function nLongBitMask(n) { // generates 1 bits (n of them)
-	return (1 << (n+1)) - 1;
+	if (n == 0) {
+		return 0x0;
+	}
+	else {
+		return (1 << n) - 1;
+	}
 }
 
 function readNumberFromBytes(bitCount, bitPos, bytes) {
@@ -47,6 +52,7 @@ function readNumberFromBytes(bitCount, bitPos, bytes) {
 	bitsUsed += bitsLeftInByte;
 	bytePos++;
 
+
 	// 2. Write all full bytes
 	while (bitsLeft >= 8) {
 		n |= bytes[bytePos] << bitsUsed;
@@ -55,17 +61,17 @@ function readNumberFromBytes(bitCount, bitPos, bytes) {
 		bytePos++;
 	}
 
+	let prevN = n;
 	// 3. Read leftover bits from lower bits of last byte
 	n |= (bytes[bytePos] & nLongBitMask(bitsLeft)) << bitsUsed;
 
-	console.log("n", n);
-	n >>= 1;
-	//TODO TODO TODO TODO TODO make tests for readNumberFromBytes so I can find where it is messing up
+
 	return n;
 }
 
 export {
 	getBitsPerElement,
 	putNumberInBytes,
-	readNumberFromBytes,
+	nLongBitMask,
+	readNumberFromBytes
 };

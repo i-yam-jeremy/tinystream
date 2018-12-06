@@ -11,6 +11,8 @@ function writeElement(outputBitPos, outputBytes, dictionary, s) {
 		outputBytes = newOutputBytes;
 	}
 
+	console.log("n", n);
+
 	putNumberInBytes(elementBitCount, outputBitPos, n, outputBytes);
 
 	return outputBytes;
@@ -19,14 +21,20 @@ function writeElement(outputBitPos, outputBytes, dictionary, s) {
 function compress(dictionary, data) {
 	let outputBytes = new Uint8Array(data.length);
 	let outputBitPos = 0;
-	let s = [];
-	for (let i = 0; i < data.length; i++) {
+
+	let c = data[0];
+	outputBytes[0] = c;
+	outputBitPos += 8;
+	console.log("First Byte", c);
+	let s = [c];
+	for (let i = 1; i < data.length; i++) {
 		let c = data[i];
 		if (isInDictionary(dictionary, s.concat([c]))) {
 			s.push(c);
 		}
 		else {
 			outputBytes = writeElement(outputBitPos, outputBytes, dictionary, s);
+			console.log("Write Bits: ", outputBitPos, dictionary.length, i);
 			outputBitPos += getBitsPerElement(dictionary.length);
 			dictionary.push(s.concat([c]));
 			s = [c];
@@ -43,13 +51,13 @@ function decompress(dictionary, data) {
 	let oldIndex = readNumberFromBytes(getBitsPerElement(dictionary.length), bitPos, data);
 	bitPos += getBitsPerElement(dictionary.length);
 	//TODO output old code translation
-	console.log(dictionary[oldIndex]);
+	console.log("Hey", dictionary[oldIndex]);
 	while (bitPos/8 < data.length) {
+		//console.log("Read Bits: ", bitPos, dictionary.length);
 		let newIndex = readNumberFromBytes(getBitsPerElement(dictionary.length), bitPos, data);
 		bitPos += getBitsPerElement(dictionary.length);
-		console.log(bitPos);
 		let s = dictionary[newIndex];
-		console.log(s);
+		console.log("Hi", s, newIndex);
 		//TODO output the bytes in s
 		let c = s[0];
 		dictionary.push(dictionary[oldIndex].concat([c]));
