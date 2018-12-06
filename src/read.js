@@ -1,7 +1,7 @@
 const decompress = require('./compress').decompress;
 const initDictionary = require('./dict').initDictionary;
 
-class TinyReadStream {
+class ReadStream {
 
 	constructor(callback) {
 		this.dictionary = initDictionary();
@@ -15,4 +15,4 @@ class TinyReadStream {
 
 }
 
-module.exports = {TinyReadStream};
+module.exports = {ReadStream};

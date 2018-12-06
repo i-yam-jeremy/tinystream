@@ -1,4 +1,4 @@
-const TinyWriteStream = require('./write').TinyWriteStream;
-const TinyReadStream = require('./read').TinyReadStream;
+const WriteStream = require('./write').WriteStream;
+const ReadStream = require('./read').ReadStream;
 
-module.exports = {TinyWriteStream, TinyReadStream};
+module.exports = {WriteStream, ReadStream};

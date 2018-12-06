@@ -1,7 +1,7 @@
 const compress = require('./compress').compress;
 const initDictionary = require('./dict').initDictionary;
 
-class TinyWriteStream {
+class WriteStream {
 
 	constructor(callback) {
 		this.dictionary = initDictionary();
@@ -15,4 +15,4 @@ class TinyWriteStream {
 
 }
 
-module.exports = {TinyWriteStream};
+module.exports = {WriteStream};
