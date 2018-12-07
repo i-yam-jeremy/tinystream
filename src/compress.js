@@ -58,6 +58,10 @@ function writeBytes(values, bytePos, dstBytes) {
 }
 
 function decompress(dictionary, data) {
+	if (data.length == 0) {
+		return new Uint8Array([]);
+	}
+
 	let outputBytes = new Uint8Array(data.length);
 	let outputBytePos = 0;
 	let bitPos = 0;
