@@ -46,7 +46,7 @@ function compress(dictionary, data) {
 }
 
 function writeBytes(values, bytePos, dstBytes) {
-	if (values.length + bytePos >= dstBytes.length) {
+	if (values.length + bytePos > dstBytes.length) {
 		let newBytes = new Uint8Array(2*dstBytes.length);
 		newBytes.set(dstBytes, 0);
 		dstBytes = newBytes;
@@ -101,4 +101,4 @@ function decompress(dictionary, data) {
 	return outputBytes.slice(0, outputBytePos);
 }
 
-module.exports = {compress, decompress};
+module.exports = {writeElement, compress, writeBytes, decompress};
