@@ -7,19 +7,15 @@ const getBitsPerElement = bits.getBitsPerElement;
 const putNumberInBytes = bits.putNumberInBytes;
 const readNumberFromBytes = bits.readNumberFromBytes;
 
-function writeElement(outputBitPos, outputBytes, dictionary, s) {
-	let elementBitCount = getBitsPerElement(dictionary.length);
-	let n = dictIndexOf(dictionary, s);
-
+function resizeIfNecessary(outputBitPos, elementBitCount, outputBytes) {
 	if ((outputBitPos + elementBitCount)/8 >= outputBytes.length) {
 		newOutputBytes = new Uint8Array(2*outputBytes.length);
 		newOutputBytes.set(outputBytes, 0);
-		outputBytes = newOutputBytes;
+		return newOutputBytes;
 	}
-
-	putNumberInBytes(elementBitCount, outputBitPos, n, outputBytes);
-
-	return outputBytes;
+	else {
+		return outputBytes;
+	}
 }
 
 function compress(dictionary, data) {
@@ -33,14 +29,20 @@ function compress(dictionary, data) {
 			s.push(c);
 		}
 		else {
-			outputBytes = writeElement(outputBitPos, outputBytes, dictionary, s);
-			outputBitPos += getBitsPerElement(dictionary.length);
+			let elementBitCount = getBitsPerElement(dictionary.length);
+			let n = dictIndexOf(dictionary, s);
+			outputBytes = resizeIfNecessary(outputBitPos, elementBitCount, outputBytes);
+			putNumberInBytes(elementBitCount, outputBitPos, n, outputBytes);
+			outputBitPos += elementBitCount; 
 			dictionary.push(s.concat([c]));
 			s = [c];
 		}
 	}
-	outputBytes = writeElement(outputBitPos, outputBytes, dictionary, s);
-	outputBitPos += getBitsPerElement(dictionary.length);
+	let elementBitCount = getBitsPerElement(dictionary.length);
+	let n = dictIndexOf(dictionary, s);
+	outputBytes = resizeIfNecessary(outputBitPos, elementBitCount, outputBytes);
+	putNumberInBytes(elementBitCount, outputBitPos, n, outputBytes);
+	outputBitPos += elementBitCount;
 	
 	return outputBytes.slice(0, Math.ceil((outputBitPos+1)/8));
 }
@@ -101,4 +103,4 @@ function decompress(dictionary, data) {
 	return outputBytes.slice(0, outputBytePos);
 }
 
-module.exports = {writeElement, compress, writeBytes, decompress};
+module.exports = {resizeIfNecessary, compress, writeBytes, decompress};
