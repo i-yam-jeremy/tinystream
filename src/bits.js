@@ -1,7 +1,24 @@
+/*
+	Returns the number of bits needed to store an element
+		based on the given dictionary length
+
+	@param dictionaryLength - integer - the size of the dictionary
+
+	@return - integer - the number of bits needed
+*/
 function getBitsPerElement(dictionaryLength) {
 	return Math.ceil(Math.log2(dictionaryLength));
 }
 
+/*
+	Inserts the given value into the byte array at the specified position
+	Note: this function modifies the given byte array
+
+	@param bitCount - integer - the number of bits to write
+	@param bitPos - integer - the position (in bits) to write the number
+	@param n - integer - the number to write
+	@param bytes - Uint8Array - the destination to write the number to
+*/
 function putNumberInBytes(bitCount, bitPos, n, bytes) {
 
 	let bitsLeft = bitCount;
@@ -32,7 +49,15 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 	bytes[bytePos] |= n;
 }
 
-function nLongBitMask(n) { // generates 1 bits (n of them)
+/*
+	Creates a bit mask consisting of the specified number of 1s
+		(returns 0 if n <= 0)
+
+	@param n - integer - the number of 1 bits in the bitmask	
+
+	@return - integer - the bit mask
+*/
+function nLongBitMask(n) {
 	if (n <= 0) {
 		return 0x0;
 	}
@@ -41,6 +66,15 @@ function nLongBitMask(n) { // generates 1 bits (n of them)
 	}
 }
 
+/*
+	Reads a number from a byte array at the specified position
+
+	@param bitCount - integer - the number of bits to read
+	@param bitPos - integer - the position in bits at which to read
+	@param bytes - Uint8Array - the bytes to read from
+
+	@return - integer - the number that was read
+*/
 function readNumberFromBytes(bitCount, bitPos, bytes) {
 	let n = 0;
 

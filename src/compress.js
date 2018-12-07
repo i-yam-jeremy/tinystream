@@ -7,6 +7,17 @@ const getBitsPerElement = bits.getBitsPerElement;
 const putNumberInBytes = bits.putNumberInBytes;
 const readNumberFromBytes = bits.readNumberFromBytes;
 
+/*
+	Resizes the given byte array if writing a value of the specified
+		bit size at the specified position would cause it to overflow
+
+	@param outputBitPos - integer - the position where you are planning on writing
+	@param elementBitCount - integer - the size of the element you are planning on writing
+	@param outputBytes - integer - the byte array
+
+	@return - Uint8Array - a byte array containing the same data as the given byte array but
+		 padded with zeros at the end if necessary
+*/
 function resizeIfNecessary(outputBitPos, elementBitCount, outputBytes) {
 	if ((outputBitPos + elementBitCount)/8 >= outputBytes.length) {
 		newOutputBytes = new Uint8Array(2*outputBytes.length);
@@ -18,6 +29,16 @@ function resizeIfNecessary(outputBitPos, elementBitCount, outputBytes) {
 	}
 }
 
+/*
+	Compresses data with LZW using the given dictionary
+
+	@see src/dict.js
+
+	@param dictionary - Dictionary - the dictionary to use (this is modified)
+	@param data - Uint8Array - the data to compress
+
+	@return - Uint8Array - the compressed data
+*/
 function compress(dictionary, data) {
 	let outputBytes = new Uint8Array(data.length);
 	let outputBitPos = 0;
@@ -47,6 +68,18 @@ function compress(dictionary, data) {
 	return outputBytes.slice(0, Math.ceil((outputBitPos+1)/8));
 }
 
+/*
+	Writes the given values to the byte array at the specified
+		position, resizing the destination array if necessary
+
+	@param values - byte[] - an array of integers between 0 and 255 inclusive
+	@param bytePos - integer - the position to write the values
+	@param dstBytes - Uint8Array - the destination for where to write the values
+
+	@return - Uint8Array - a byte array containing the same data as dstBytes, but
+		with values written at bytePos and padded with zeros if necessary to
+		prevent overflow
+*/
 function writeBytes(values, bytePos, dstBytes) {
 	if (values.length + bytePos > dstBytes.length) {
 		let newBytes = new Uint8Array(2*dstBytes.length);
@@ -59,6 +92,16 @@ function writeBytes(values, bytePos, dstBytes) {
 	return dstBytes;
 }
 
+/*
+	Deompresses data with LZW using the given dictionary
+
+	@see src/dict.js
+
+	@param dictionary - Dictionary - the dictionary to use (this is modified)
+	@param data - Uint8Array - the data to decompress
+
+	@return - Uint8Array - the decompressed data
+*/
 function decompress(dictionary, data) {
 	if (data.length == 0) {
 		return new Uint8Array([]);
