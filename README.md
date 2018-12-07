@@ -1,6 +1,13 @@
 # tinystream
 tinystream is a JavaScript library for compressing data streams using the LZW compression algorithm. The goal of this library is to be simple and easy to use
 
+## Testing
+tinystream uses [Mocha](https://mochajs.org/) and [Istanbul](https://istanbul.js.org/) for testing and code coverage.  
+### Tests
+```npm test```
+### Code Coverage
+```npm run test-with-coverage```
+
 ## Usage
 
 ### Installation
