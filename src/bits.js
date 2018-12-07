@@ -10,6 +10,8 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 	// 1. Write to the remaining bits left in the byte
 	let bitsUsedInByte = bitPos % 8;
 	let bitsLeftInByte = 8 - bitsUsedInByte;
+
+	bytes[bytePos] &= nLongBitMask(bitsUsedInByte); // clear unused bits
 	bytes[bytePos] |= n << bitsUsedInByte; /* will get the correct number of bits needed
 		 to fill byte and the rest will be cut off cause Uint8Array */
 	n >>= bitsLeftInByte;
@@ -18,6 +20,7 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 
 	// 2. Write all full bytes
 	while (bitsLeft >= 8) {
+		bytes[bytePos] = 0;
 		bytes[bytePos] = n & 0xFF;
 		n >>= 8;
 		bitsLeft -= 8;
@@ -25,6 +28,7 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 	}
 
 	// 3. Write leftover bits to lower bits of last byte
+	bytes[bytePos] &= ~nLongBitMask(bitsLeft);
 	bytes[bytePos] |= n;
 }
 
