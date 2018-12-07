@@ -44,7 +44,7 @@ describe('LZW Elements To Bytes', () => {
 			assert.deepEqual(bytes, new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
 
 		});
-		it('greater 8 bits', () => {
+		it('greater than 8 bits', () => {
 			let bytes = new Uint8Array(6);
 
 			putNumberInBytes(9, 0, 385, bytes);
@@ -55,7 +55,6 @@ describe('LZW Elements To Bytes', () => {
 
 			putNumberInBytes(10, 0, 87, bytes);
 			assert.deepEqual(bytes, new Uint8Array([87, 184, 0, 0, 0, 0]));
-
 			
 
 			bytes = new Uint8Array([1, 87, 94, 255, 208, 24, 60, 88, 12]);
@@ -63,6 +62,11 @@ describe('LZW Elements To Bytes', () => {
 			putNumberInBytes(17, 18, 87394, bytes);
 			assert.deepEqual(bytes, new Uint8Array([1, 87, 138, 85, 213, 24, 60, 88, 12]));
 
+
+			bytes = new Uint8Array([1, 87, 94, 255, 208, 24, 60, 88, 12]);
+
+			putNumberInBytes(24, 1, 907111, bytes);
+			assert.deepEqual(bytes, new Uint8Array([207, 174, 27, 254, 208, 24, 60, 88, 12]));
 		});
 	});
 	describe('nLongBitMask()', () => {
@@ -108,11 +112,24 @@ describe('LZW Elements To Bytes', () => {
 		});
 	});
 	describe('readNumberFromBytes()', () => {
-		it('test', () => {
+		it('less than 8 bits', () => {
+			let bytes = new Uint8Array([237, 67, 140]);
+
+			assert.equal(readNumberFromBytes(5, 10, bytes), 16);
+			assert.equal(readNumberFromBytes(1, 3, bytes), 1);
+			assert.equal(readNumberFromBytes(4, 19, bytes), 1);
+		});
+		it('8 bits', () => {
 			let bytes = new Uint8Array([41, 141, 0, 24, 255]);
-			assert.equal(readNumberFromBytes(8, 1, bytes), (41>>1)|128);
+			assert.equal(readNumberFromBytes(8, 1, bytes), 148);
+
+		});
+		it('greater than 8 bits', () => {
+			let bytes = new Uint8Array([41, 141, 0, 24, 255]);
+			
 			assert.equal(readNumberFromBytes(9, 0, bytes), 297);
-			assert.equal(readNumberFromBytes(9, 3, bytes), (41>>3) | ((141 & 0x1F) << 5));
+			assert.equal(readNumberFromBytes(9, 3, bytes), 421);
+			assert.equal(readNumberFromBytes(18, 4, bytes), 2258);
 		});
 	});
 });

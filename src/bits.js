@@ -51,13 +51,13 @@ function readNumberFromBytes(bitCount, bitPos, bytes) {
 	// 1. Read from the remaining bits left in the byte
 	let bitsUsedInByte = bitPos % 8;
 	let bitsLeftInByte = 8 - bitsUsedInByte;
-	n |= bytes[bytePos] >> bitsUsedInByte;
+	n |= (bytes[bytePos] >> bitsUsedInByte) & nLongBitMask(bitCount); // get the bits and trim off the necessary top bits if bitCount < bitsLeftInByte
 	bitsLeft -= bitsLeftInByte;
 	bitsUsed += bitsLeftInByte;
 	bytePos++;
 
 
-	// 2. Write all full bytes
+	// 2. Read all full bytes
 	while (bitsLeft >= 8) {
 		n |= bytes[bytePos] << bitsUsed;
 		bitsLeft -= 8;
