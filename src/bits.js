@@ -11,7 +11,7 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 	let bitsUsedInByte = bitPos % 8;
 	let bitsLeftInByte = 8 - bitsUsedInByte;
 
-	bytes[bytePos] &= nLongBitMask(bitsUsedInByte); // clear unused bits
+	bytes[bytePos] &= ~(nLongBitMask(Math.min(bitsLeftInByte, bitCount)) << bitsUsedInByte); // clear bits to be written
 	bytes[bytePos] |= n << bitsUsedInByte; /* will get the correct number of bits needed
 		 to fill byte and the rest will be cut off cause Uint8Array */
 	n >>= bitsLeftInByte;
@@ -33,7 +33,7 @@ function putNumberInBytes(bitCount, bitPos, n, bytes) {
 }
 
 function nLongBitMask(n) { // generates 1 bits (n of them)
-	if (n == 0) {
+	if (n <= 0) {
 		return 0x0;
 	}
 	else {
